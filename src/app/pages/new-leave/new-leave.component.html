@@ -1,0 +1,180 @@
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-7">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-6 text-white">
+              <strong>Запросы на Отпуск</strong>
+            </div>
+            <div class="col-6 text-end">
+              <button class="btn btn-warning">Добавить Запрос на Отпуск</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            @for (item of requestList; track $index) {
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <!-- Card Header with Essential Information -->
+                <div
+                  class="card-header d-flex justify-content-between align-items-center"
+                >
+                  <span
+                    ><strong>{{ item.employeeName }}</strong>
+                  </span>
+                </div>
+
+                <!-- Card Body with Minimal Info and Toggle for More Details -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <strong>Начало Отпуска:</strong>
+                      {{ item.startDate | date : "dd-MMM-yy" }}
+                    </div>
+                    <div class="col-6">
+                      <strong>Конец Отпуска:</strong>
+                      {{ item.endDate | date : "dd-MMM-yy" }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <strong>Статус:</strong> {{ item.status }}
+                    </div>
+                    <div class="col-6">
+                      <strong>Тип:</strong> {{ item.typeName }}
+                    </div>
+                  </div>
+
+                  <!-- Toggle Button to Show/Hide More Info -->
+
+                  <!-- More Information (Shown when toggle is active) -->
+                </div>
+
+                <!-- Card Footer with Action Buttons -->
+                <div class="card-footer text-end">
+                  @if(masterSrv.loggedUserData.role == "Admin") {
+                  <button
+                    class="btn btn-success btn-sm"
+                    (click)="changeStatus(item.leaveId)"
+                  >
+                    Согласовать
+                  </button>
+                  } @else {
+                  <button class="btn btn-primary btn-sm me-2">
+                    Редактировать
+                  </button>
+                  <button class="btn btn-danger btn-sm">Отказаться</button>
+                  }
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-6 text-white">
+              <strong>Создать Запрос на Отпуск</strong>
+            </div>
+            <div class="col-6 text-end">
+              <button class="btn btn-primary">Закрыть</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="leaveRequestForm" [formGroup]="leaveForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="employeeId">Имя Сотрудника</label>
+                  <select
+                    class="form-select"
+                    formControlName="employeeId"
+                    name=""
+                    id=""
+                  >
+                    @for (item of employee$ | async; track $index) {
+                    <option [value]="item.employeeId">
+                      {{ item.employeeName }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="leaveTypeId">Тип Отпуска</label>
+                  <select
+                    class="form-select"
+                    formControlName="leaveTypeId"
+                    name=""
+                    id=""
+                  >
+                    @for (item of leaveTypeList(); track $index) {
+                    <option [value]="item.leaveTypeId">
+                      {{ item.typeName }}
+                    </option>
+                    }
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="startDate">Начало Отпуска</label>
+                  <input
+                    type="date"
+                    formControlName="startDate"
+                    class="form-control"
+                    id="startDate"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="endDate">Конец Отпуска</label>
+                  <input
+                    type="date"
+                    formControlName="endDate"
+                    class="form-control"
+                    id="endDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="reason">Причины</label>
+                  <textarea
+                    formControlName="reason"
+                    class="form-control"
+                    id="reason"
+                    rows="3"
+                    placeholder="Укажите причину отпуска"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              (click)="onSave()"
+              class="btn btn-primary mt-2"
+            >
+              Отправить
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

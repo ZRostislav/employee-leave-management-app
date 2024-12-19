@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand" routerLink="/dashboard">
+      <img
+        src="https://via.placeholder.com/50"
+        alt="Logo"
+        width="30"
+        height="30"
+        class="d-inline-block align-text-top"
+      />
+      Админ Панель
+    </a>
+    <!-- Кнопка переключения для просмотра с мобильного устройства -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Ссылки на навигационную панель -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link active text-dark"
+            aria-current="page"
+            routerLink="/dashboard"
+            >Главная</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" routerLink="/employee">Сотрудники</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" routerLink="/leave-request"
+            >Запросы на Отпуск</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" routerLink="/earned-leave">Отпуск</a>
+        </li>
+      </ul>
+      <!-- Раздел, выровненный по правому краю: Имя пользователя и кнопка выхода из системы -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item d-flex align-items-center">
+          <span class="navbar-text me-2 text-dark"
+            >Добро Пожаловать, {{ loggedUserData.emailId }}</span
+          >
+          <button
+            class="btn btn-warning btn-sm"
+            type="button"
+            (click)="onLogoff()"
+          >
+            Выйти из Системы
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<router-outlet />

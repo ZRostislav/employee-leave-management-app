@@ -1,0 +1,100 @@
+<div class="container-fluid my-4">
+  <div class="row">
+    <div class="col-9">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-6 text-white">
+              <strong>Отпуски</strong>
+            </div>
+            <div class="col-6 text-end">
+              <button class="btn btn-warning">Добавить Отпуск</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            @for (item of earnedLeaves; track $index) {
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <!-- Card Header with Essential Information -->
+                <div
+                  class="card-header d-flex justify-content-between align-items-center"
+                >
+                  <span
+                    ><strong>{{ item.employeeName }}</strong>
+                  </span>
+                </div>
+
+                <!-- Card Body with Minimal Info and Toggle for More Details -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <strong>Дней Отпуска:</strong>
+                      {{ item.totalEarnedLeaves }}
+                    </div>
+                    <div class="col-6">
+                      <strong>Последние Обновление:</strong>
+                      {{ item.lastUpdatedDate | date : "dd-MMM-yy" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-8 text-white">
+              <strong>Добавить Отпуск Сотруднику</strong>
+            </div>
+            <div class="col-4 text-end">
+              <button class="btn btn-primary">Закрыть</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="leaveRequestForm" [formGroup]="form" (ngSubmit)="onSave()">
+            <div class="row">
+              <div class="col-md-12">
+                <label for="deptId" class="form-label">Сотрудники</label>
+                <select
+                  id="deptId"
+                  name="deptId"
+                  formControlName="employeeId"
+                  class="form-select"
+                >
+                  <option selected>Выбрать Сотрудника</option>
+                  @for (item of employee$ | async; track $index) {
+                  <option [value]="item.employeeId">
+                    {{ item.employeeName }}
+                  </option>
+                  }
+                </select>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="startDate">Дней Отпуска</label>
+                  <input
+                    type="text"
+                    formControlName="totalEarnedLeaves"
+                    class="form-control"
+                    id="startDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">
+              Отправить
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
